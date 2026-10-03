@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación de XV años</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at top, #fff9f4, transparent 55%),
+                #f2e3df;
+            font-family: Georgia, "Times New Roman", serif;
+            color: #513843;
+        }
+
+        .escena {
+            position: relative;
+            width: min(92vw, 480px);
+            height: 590px;
+            display: grid;
+            place-items: center;
+            perspective: 1000px;
+        }
+
+        /* Tarjeta con los datos */
+        .tarjeta {
+            position: absolute;
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            width: min(82vw, 350px);
+            min-height: 390px;
+            padding: 32px 25px;
+            transform: translate(-50%, 15%);
+            opacity: 0;
+            pointer-events: none;
+            text-align: center;
+            border: 1px solid #ead3c9;
+            border-radius: 12px;
+            background: #fffdfb;
+            box-shadow: 0 12px 35px #57374626;
+            transition:
+                transform 1s ease,
+                opacity 0.7s ease;
+        }
+
+        .tarjeta h1 {
+            margin: 8px 0;
+            color: #a75f75;
+            font-size: clamp(2rem, 9vw, 3rem);
+            font-weight: normal;
+        }
+
+        .tarjeta h2 {
+            margin: 0 0 18px;
+            font-size: 1.15rem;
+            font-weight: normal;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .tarjeta p {
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .separador {
+            width: 55px;
+            height: 1px;
+            margin: 17px auto;
+            background: #d4a8a0;
+        }
+
+        /* Reemplaza estas imágenes por tus propias fotos */
+        .foto {
+            width: 115px;
+            height: 115px;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 4px solid #f0ded9;
+            border-radius: 50%;
+            background: #f5e9e4;
+        }
+
+        .foto img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Sobre */
+        .sobre {
+            position: absolute;
+            z-index: 3;
+            top: 52%;
+            left: 50%;
+            width: min(82vw, 350px);
+            height: 220px;
+            padding: 0;
+            transform: translate(-50%, -50%);
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: z-index 0s 0.5s;
+        }
+
+        .cuerpo-sobre {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            border-radius: 5px;
+            background: #d8a7a5;
+            box-shadow: 0 14px 30px #5737462b;
+        }
+
+        /* Solapa del sobre */
+        .solapa {
+            position: absolute;
+            z-index: 4;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-origin: top center;
+            transform: rotateX(0deg);
+            clip-path: polygon(0 0, 100% 0, 50% 55%);
+            background: #c98e91;
+            transition: transform 0.8s ease;
+        }
+
+        /* Forma decorativa del frente del sobre */
+        .frente {
+            position: absolute;
+            z-index: 2;
+            inset: 0;
+            clip-path: polygon(0 100%, 0 0, 50% 58%, 100% 0, 100% 100%);
+            background: #e8c1b9;
+        }
+
+        .sello {
+            position: absolute;
+            z-index: 5;
+            top: 48%;
+            left: 50%;
+            display: grid;
+            width: 48px;
+            height: 48px;
+            place-items: center;
+            transform: translate(-50%, -50%);
+            border: 2px solid #fff3eb;
+            border-radius: 50%;
+            background: #a75f75;
+            color: white;
+            font-size: 1.35rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .texto-ayuda {
+            position: absolute;
+            top: calc(52% + 135px);
+            left: 50%;
+            width: 100%;
+            transform: translateX(-50%);
+            color: #795c66;
+            font-family: Arial, sans-serif;
+            font-size: 0.95rem;
+            text-align: center;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Estado abierto */
+        .escena.abierta .sobre {
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .escena.abierta .solapa {
+            transform: rotateX(180deg);
+        }
+
+        .escena.abierta .sello,
+        .escena.abierta .texto-ayuda {
+            opacity: 0;
+        }
+
+        .escena.abierta .tarjeta {
+            z-index: 2;
+            transform: translate(-50%, -58%);
+            opacity: 1;
+            pointer-events: auto;
+            transition-delay: 0.35s;
+        }
+
+        @media (max-height: 650px) {
+            .escena {
+                transform: scale(0.85);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Al abrir, el sobre se acerca y desaparece */
+        .escena.abierta .sobre {
+            z-index: 0;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(1.6);
+            pointer-events: none;
+            transition:
+                opacity 0.5s ease,
+                transform 0.8s ease,
+                z-index 0s 0.8s;
+        }
+
+        /* La invitación ocupa toda la pantalla */
+        .escena.abierta .tarjeta {
+            position: fixed;
+            z-index: 10;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 30px 22px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 0;
+            border-radius: 0;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+            transition:
+                opacity 0.7s ease 0.25s,
+                transform 0.8s ease 0.25s;
+        }
+
+        :root {
+            --marfil: #f7f0e5;
+            --vino: #650f0d;
+            --vino-claro: #831c1b;
+            --rosa: #d8a1a2;
+            --rosa-claro: #f0d0cc;
+            --negro: #171313;
+            --rojo: #b50912;
+            --plata: #b9c0c5;
+        }
+
+        /* Fondo marfil con un toque rosado en las esquinas */
+        body {
+            color: var(--negro);
+            background:
+                radial-gradient(ellipse at 0% 0%, #e8888b 0, transparent 23%),
+                radial-gradient(ellipse at 100% 100%, #db777d 0, transparent 22%),
+                var(--marfil);
+        }
+
+        /* Tarjeta de la invitación */
+        .tarjeta {
+            color: var(--negro);
+            background: var(--marfil);
+            border-color: var(--rosa);
+        }
+
+        .tarjeta h1 {
+            color: var(--negro);
+        }
+
+        .tarjeta h2 {
+            color: var(--negro);
+        }
+
+        .separador {
+            background: var(--rosa);
+        }
+
+        .foto {
+            border-color: var(--rosa-claro);
+            background: var(--rosa-claro);
+        }
+
+        /* Sobre color vino */
+        .cuerpo-sobre {
+            background: var(--vino);
+        }
+
+        .solapa {
+            background: var(--vino-claro);
+        }
+
+        .frente {
+            background: linear-gradient(145deg, #781815, var(--vino) 65%);
+        }
+
+        /* Sello y texto sobre el sobre */
+        .sello {
+            border-color: #d78b91;
+            background: var(--vino-claro);
+            color: #fff2ee;
+        }
+
+        .texto-ayuda {
+            color: var(--vino);
+            font-family: Georgia, "Times New Roman", serif;
+            letter-spacing: 1px;
+        }
+
+        /* Marco delicado para la invitación abierta */
+        .escena.abierta .tarjeta {
+            background:
+                radial-gradient(ellipse at 0% 0%, #f1d9d2 0, transparent 25%),
+                radial-gradient(ellipse at 100% 100%, #f1d9d2 0, transparent 25%),
+                var(--marfil);
+        }
+    </style>
+</head>
+
+<body>
+    <main class="escena" id="escena">
+        <section class="tarjeta" aria-live="polite">
+            <div class="foto">
+                <!-- Cambia la ruta por una foto tuya, por ejemplo: img/foto-quinceanera.jpg -->
+                <img src="Images/sofia2.png" alt="Foto de la quinceañera">
+            </div>
+
+            <h2>Mis XV años</h2>
+            <h1>Sofia</h1>
+
+            <div class="separador"></div>
+
+            <p>Hay dias que se vuelven inolvidables,momentos que
+                queremos guardar para siempre y personas que hacen
+                nuestra vida más especial.<br>Por eso quiero que estén conmigo en esta noche tan
+                importante y compartan la alegría de celebrar...</p>
+            <p><strong>Sábado 24 de Octubre</strong><br>21:30 hs.</p>
+            <p><strong>Salón FESTIVA</strong><br>calle123</p>
+
+            <div class="separador"></div>
+
+            <p>¡Te espero!</p>
+        </section>
+
+        <button class="sobre" id="botonSobre" type="button" aria-label="Abrir invitación" aria-expanded="false">
+            <span class="cuerpo-sobre"></span>
+            <span class="frente"></span>
+            <span class="solapa"></span>
+            <span class="sello" aria-hidden="true">♥</span>
+        </button>
+
+        <p class="texto-ayuda" id="textoAyuda">Toca el sobre para abrir tu invitación</p>
+    </main>
+
+    <script>
+        const escena = document.getElementById("escena");
+        const botonSobre = document.getElementById("botonSobre");
+
+        botonSobre.addEventListener("click", () => {
+            escena.classList.add("abierta");
+            botonSobre.setAttribute("aria-expanded", "true");
+        });
+    </script>
+</body>
+
+</html>
