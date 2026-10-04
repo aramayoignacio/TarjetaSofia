@@ -83,13 +83,24 @@
             --f-texto: "Cormorant Garamond", Georgia, "Times New Roman", serif;
         }
 
+        html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            overscroll-behavior: none;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
         body {
+            width: 100%;
             min-height: 100vh;
             min-height: 100dvh;
             margin: 0;
             display: grid;
             place-items: center;
             overflow: hidden;
+            overscroll-behavior: none;
             font-family: var(--f-texto);
             font-weight: 500;
             font-size: 1.25rem;
@@ -171,6 +182,8 @@
             min-height: 100vh;
             min-height: 100dvh;
             padding-top: clamp(60px, 15dvh, 140px);
+            overflow: hidden;
+            overflow: clip;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -180,10 +193,12 @@
 
         /* Contenedor del sobre (cae desde arriba al cargar) */
         .caja-sobre {
+            --sw: min(82vw, 350px);
             position: relative;
             z-index: 3;
-            width: min(82vw, 350px);
-            aspect-ratio: 350 / 220;
+            flex: none;
+            width: var(--sw);
+            height: calc(var(--sw) * 0.6286);
             animation: caer 1.5s cubic-bezier(.25, .8, .3, 1) 0.25s backwards;
             transition: opacity 0.5s ease, transform 0.8s ease;
         }
@@ -196,7 +211,7 @@
 
         .aura {
             position: absolute;
-            inset: -45% -30%;
+            inset: -38% -10%;
             z-index: 0;
             border-radius: 50%;
             background: radial-gradient(circle, #e8888b77 0, #e8888b22 40%, transparent 65%);
@@ -213,15 +228,15 @@
 
         .chispa-1 {
             top: -17%;
-            right: -7%;
-            width: 46px;
+            right: -5%;
+            width: calc(var(--sw) * 0.13);
             animation: titilar 2.4s ease-in-out infinite;
         }
 
         .chispa-2 {
             bottom: -14%;
-            left: -8%;
-            width: 40px;
+            left: -5%;
+            width: calc(var(--sw) * 0.115);
             animation: titilar 2.9s ease-in-out infinite 0.6s;
         }
 
@@ -262,7 +277,7 @@
             right: 7%;
             top: 6%;
             height: 92%;
-            padding-top: 14px;
+            padding-top: calc(var(--sw) * 0.04);
             border: 1.5px solid var(--plata);
             border-radius: 6px;
             background:
@@ -276,7 +291,7 @@
 
         .carta small {
             display: block;
-            font-size: 0.8rem;
+            font-size: calc(var(--sw) * 0.04);
             letter-spacing: 3px;
             text-transform: uppercase;
         }
@@ -284,7 +299,7 @@
         .carta b {
             display: block;
             font-family: var(--f-titulo);
-            font-size: 2.6rem;
+            font-size: calc(var(--sw) * 0.115);
             line-height: 1.1;
         }
 
@@ -292,7 +307,7 @@
             display: block;
             font-family: var(--f-script);
             font-style: normal;
-            font-size: 1.9rem;
+            font-size: calc(var(--sw) * 0.085);
             line-height: 1;
         }
 
@@ -331,7 +346,7 @@
             z-index: 3;
             left: 0;
             right: 0;
-            bottom: 12px;
+            bottom: calc(var(--sw) * 0.04);
             text-align: center;
             color: #f6e6df;
             pointer-events: none;
@@ -341,7 +356,7 @@
             display: block;
             font-family: var(--f-script);
             font-weight: 400;
-            font-size: clamp(2rem, 9vw, 2.6rem);
+            font-size: calc(var(--sw) * 0.115);
             line-height: 1;
             text-shadow: 0 2px 6px #00000060;
         }
@@ -349,8 +364,8 @@
         .nombre-sobre small {
             display: block;
             margin-top: 2px;
-            font-size: 0.72rem;
-            letter-spacing: 4px;
+            font-size: calc(var(--sw) * 0.034);
+            letter-spacing: calc(var(--sw) * 0.011);
             text-transform: uppercase;
             color: var(--plata);
         }
@@ -392,10 +407,10 @@
 
         .sello {
             z-index: 5;
-            top: 47%;
+            top: 44%;
             left: 50%;
-            width: 66px;
-            height: 66px;
+            width: calc(var(--sw) * 0.18);
+            height: calc(var(--sw) * 0.18);
             translate: -50% -50%;
             border: 2px solid var(--plata);
             border-radius: 50%;
@@ -409,7 +424,8 @@
             position: absolute;
             left: 50%;
             top: 50%;
-            width: 92px;
+            width: calc(var(--sw) * 0.25);
+            height: auto;
             translate: -50% -52%;
             filter: drop-shadow(0 3px 3px #00000070);
         }
@@ -491,43 +507,45 @@
            TARJETA (INVITACIÓN ABIERTA)
            ===================================================== */
         .tarjeta {
-            position: absolute;
+            position: fixed;
             z-index: 1;
-            top: 50%;
-            left: 50%;
-            width: min(82vw, 350px);
-            min-height: 390px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
             padding: 0;
-            transform: translate(-50%, 15%);
-            opacity: 0;
-            pointer-events: none;
+            overflow: hidden;
             text-align: center;
             color: var(--negro);
             background:
                 radial-gradient(ellipse at 0% 0%, #f1d9d2 0, transparent 25%),
                 radial-gradient(ellipse at 100% 100%, #f1d9d2 0, transparent 25%),
                 var(--marfil);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: scale(0.94) translateY(4%);
             transition:
-                transform 1s ease,
-                opacity 0.7s ease;
+                transform 0.8s ease 0.2s,
+                opacity 0.7s ease 0.2s,
+                visibility 0s 1s;
         }
 
         .escena.abierta .tarjeta {
-            position: fixed;
             z-index: 10;
-            top: 50%;
-            left: 50%;
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh;
-            overflow-y: auto;
             overflow-x: hidden;
-            transform: translate(-50%, -50%) scale(1);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
             opacity: 1;
+            visibility: visible;
             pointer-events: auto;
+            transform: none;
             transition:
+                transform 0.8s ease 0.2s,
                 opacity 0.7s ease 0.2s,
-                transform 0.8s ease 0.2s;
+                visibility 0s 0s;
         }
 
         .contenido {
@@ -580,8 +598,9 @@
 
         .banderines {
             position: relative;
-            width: min(100vw, 420px);
-            aspect-ratio: 660 / 443;
+            --bw: min(100vw, 420px, 55vh);
+            width: var(--bw);
+            height: calc(var(--bw) * 0.6712);
             margin-top: -6px;
             overflow: hidden;
             flex: none;
@@ -611,10 +630,11 @@
 
         /* Portada */
         .portada {
+            --pw: min(calc(100vw - 44px), 340px);
             position: relative;
-            width: min(100%, 340px);
-            height: 290px;
-            margin-top: -30px;
+            width: var(--pw);
+            height: calc(var(--pw) * 0.853);
+            margin-top: calc(var(--pw) * -0.09);
             flex: none;
         }
 
@@ -623,7 +643,7 @@
             left: 50%;
             bottom: 0;
             width: 62%;
-            aspect-ratio: 755 / 709;
+            height: calc(var(--pw) * 0.62 * 0.939);
             transform: translateX(-50%);
             overflow: hidden;
             z-index: 2;
@@ -1340,11 +1360,116 @@
             }
 
             .caja-sobre {
-                width: min(72vw, 300px);
+                --sw: min(72vw, 300px);
             }
 
             .titulo-previa .nombre {
                 font-size: 3.2rem;
+            }
+        }
+
+        /* Celular en horizontal o pantallas muy bajas: sobre a la izquierda, textos a la derecha */
+        @media (max-height: 480px) and (orientation: landscape) {
+            .escena {
+                width: min(96vw, 820px);
+                padding-top: 0;
+                display: grid;
+                grid-template-columns: auto auto;
+                grid-template-areas:
+                    "sobre titulo"
+                    "sobre ayuda";
+                justify-content: center;
+                align-content: center;
+                column-gap: 36px;
+                row-gap: 14px;
+            }
+
+            .caja-sobre {
+                --sw: min(44vw, 300px, 62vh * 1.59);
+                grid-area: sobre;
+            }
+
+            .titulo-previa {
+                grid-area: titulo;
+                align-self: end;
+            }
+
+            .texto-ayuda {
+                grid-area: ayuda;
+                align-self: start;
+                justify-self: center;
+            }
+
+            .titulo-previa .nombre {
+                font-size: 3.2rem;
+            }
+
+            .previa-banderines {
+                left: 0;
+                width: 280px;
+                transform: none;
+            }
+
+            .previa-globos {
+                display: none;
+            }
+        }
+
+        /* Celulares angostos */
+        @media (max-width: 350px) {
+            body {
+                font-size: 1.15rem;
+            }
+
+            .contenido {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .caja {
+                padding-left: 2px;
+                padding-right: 2px;
+            }
+
+            .caja .etq {
+                font-size: 0.7rem;
+                letter-spacing: 1px;
+            }
+
+            .atuendos {
+                gap: 12px;
+            }
+
+            .medallon {
+                width: 104px;
+                height: 104px;
+            }
+
+            .alias {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .boton.grande {
+                padding: 14px 22px;
+                font-size: 1.1rem;
+                white-space: nowrap;
+            }
+
+            .fiesta .globos {
+                height: 96px;
+            }
+
+            .fiesta .pastel {
+                height: 104px;
+            }
+
+            .fiesta .copa {
+                height: 102px;
+            }
+
+            .fiesta .gorro {
+                height: 70px;
             }
         }
 
@@ -1704,7 +1829,7 @@
 
                 <!-- Confirmación -->
                 <div class="confirmar bloque">
-                    <p>¿Te espero?</p>
+                    <p>Confirmá tu asistencia:</p>
                     <a class="boton grande"
                         href="https://wa.me/5493875500351?text=Confirmo%20mi%20asistencia%20al%20cumplea%C3%B1os%20de%20Sofi"
                         target="_blank" rel="noopener">💬 Confirmar asistencia</a>
@@ -1818,6 +1943,11 @@
         const musica = document.getElementById("musica");
         const botonMusica = document.getElementById("botonMusica");
         const tarjeta = document.querySelector(".tarjeta");
+        // Si alguna imagen no carga, se oculta para no desarmar el diseño
+        document.addEventListener("error", (e) => {
+            if (e.target && e.target.tagName === "IMG") e.target.style.visibility = "hidden";
+        }, true);
+
         const sinMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
         /* ---------- Confeti ---------- */
