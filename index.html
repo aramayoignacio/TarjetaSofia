@@ -1681,7 +1681,6 @@
 
                 <div class="portada bloque">
                     <img class="n1" src="Images/numero1.png" alt="">
-                    <div class="sofia"><img src="Images/sofia2.png" alt="Sofia, la quinceañera"></div>
                     <img class="n5" src="Images/numero5.png" alt="">
                     <img class="mono" src="Images/mo%C3%B1orojo.png" alt="">
                     <img class="estrella-roja" src="Images/1estrellaroja.png" alt="">
@@ -2130,7 +2129,7 @@
            Para llenarlo, agregá las rutas de tus fotos aquí, por ejemplo:
            const FOTOS = ["Fotos/foto1.jpg", "Fotos/foto2.jpg", "Fotos/foto3.jpg"];
            Mientras esté vacío, se muestran 3 espacios de ejemplo. */
-        const FOTOS = ["Fotos/1.jpeg", "Fotos/2.jpeg", "Fotos/3.jpeg", "Fotos/4.jpeg", "Fotos/5.jpeg", "Fotos/6.jpeg", "Fotos/7.jpeg", "Fotos/8.jpeg", "Fotos/9.jpeg", "Fotos/10.jpeg", "Fotos/11.jpeg", "Fotos/12.jpeg", "Fotos/13.jpeg", "Fotos/14.jpeg", "Fotos/15.jpeg", "Fotos/16.jpeg", "Fotos/17.jpeg", "Fotos/18.jpeg"];
+        const FOTOS = ["Fotos/1.jpeg", "Fotos/2.jpeg", "Fotos/3.jpeg", "Fotos/4.jpeg", "Fotos/5.jpeg", "Fotos/6.jpeg", "Fotos/7.jpeg", "Fotos/10.jpeg", "Fotos/15.jpeg", "Fotos/16.jpeg"];
 
         const pista = document.getElementById("pista");
         const puntos = document.getElementById("puntos");
@@ -2170,7 +2169,7 @@
             setInterval(() => {
                 const fin = pista.scrollLeft + pista.clientWidth >= pista.scrollWidth - 5;
                 pista.scrollTo({ left: fin ? 0 : pista.scrollLeft + pista.clientWidth, behavior: "smooth" });
-            }, 4000);
+            }, 6000);
         }
 
         /* ---------- Copiar el alias ---------- */
